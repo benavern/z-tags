@@ -13,4 +13,5 @@ Now you can create a tags section realy easily
 
 # TODO
 
+* improve methods !!!
 * improve css style

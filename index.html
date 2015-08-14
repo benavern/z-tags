@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Z-tags</title>
+	<title>z-tags</title>
 	<meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0">
 	<!-- inital style -->
 	<link rel="stylesheet" href="css/z-grid.css">
@@ -36,7 +36,7 @@
 			 What is Z-Tags?
 		</h1>
 		<p>
-			Z-Notif is a javascript plugin that lets you create tags areas very easily. By using it, you will be able to have tags sections on your webpage, and will have the possibility to let users adding tags to an area.
+			Z-Tags is a javascript plugin that lets you create tags areas very easily. By using it, you will be able to have tags sections on your webpage, and the possibility to let users add tags in that sections.
 		</p>
 		<p>
 			You won't need any javascript library, it is totally written in vanillaJs.
@@ -52,7 +52,7 @@
 		<div id="test"></div>
 		<button id="get-tags">Get The Data</button>
 		<p>
-			Here you can see a default tags section. There are 3 tags predefined, you can add and delete tags in it. There is also a method to get the data in it.
+			Here you can see a default tags section. There are 3 tags predefined, you can add and delete tags in it (by clicking the area). There is also a method to get the data in it (the button just bellow the area).
 		</p>
 
 		<hr>
@@ -61,15 +61,77 @@
 		<h1>
 			HowTo
 		</h1>
-		
-		.....
+		<ol>
+			<li>
+				Include the css and js files in your html file.	("download" button)
+			</li>
+			<li>
+				Create a div with an id or class you will be able to find with javascipt.
+				<pre>&lt;div id="demo1"&gt;&lt;/div&gt;</pre>
+			</li>
+			<li>
+				In your javascript scripts, create an instance of the ZTAGS class for each div that will be transformed in a tags section, add it some arguments if necessary.
+				<pre>var demo1 = document.getElementById('demo1');<br>var tagsdemo1 = new ZTAGS({element: demo1});</pre>
+			</li>
+		</ol>
 
-		READONLY : 
-		<div id="test2"></div>
+		<h3>Arguments</h3>
+		<p>
+			4 arguments are available, they have to be given on the instanciation in a object with those names :
+		</p>
+		<ul>
+			<li><b>element</b> : [Dom object] The element (div) that will be transformed in a tags section.</li>
+			<li><b>predefined</b> : [Array (optional)] The array of predefined tags.</li>
+			<li><b>readonly</b> : [boolean (optional)] Whether user can add, delete tags or not. </li>
+			<li><b>pattern</b> : [Array (optional)] The array of granted words for the tags.</li>
+		</ul>
 
-		PATTERN LIMITED ( ["apple", "cherry", "lemon"] )
-		<div id="test3"></div>
+		<h3>Methods</h3>
+		<p>Some javascript methods have been created:</p>
+
+		<ul>
+			<li><b>ZTAGS.add(newTag)</b> : can be used to add a tag on a ZTAGS instance. (newTag must be a string)</li>
+			<li><b>ZTAGS.delete(tagToDelete)</b> : can be used to delete a specific tag. (tagToDelete must be the DOM objectof the tag... should be simplified soon!)</li>
+			<li><b>ZTAGS.get()</b> : returns the array of tags.</li>
+		</ul>
 		
+
+		<hr>
+		
+		<h1>
+			Examples:
+		</h1>
+
+		
+		<div class="z-grid">
+			<div class="z-2">
+				<div class="z-box">
+					<h3>Read-only</h3>
+					<div id="test2"></div>
+				</div>
+			</div>
+			<div class="z-2">
+				<div class="z-box">
+					<h3>Pattern limited</h3>
+					<small>( ["apple", "cherry", "lemon"] )</small>
+					<div id="test3"></div>
+				</div>
+			</div>
+		</div>
+
+
+		<hr>
+
+		<h1>
+			More...
+		</h1>
+		<ul>
+			<li>change get & delete functions</li>
+			<li>add style habilities (color or theme ??)</li>
+		</ul>
+
+
+
 	</section>
 
 
