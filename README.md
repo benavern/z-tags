@@ -7,11 +7,10 @@ Now you can create a tags section realy easily
 
 1. include css and js files in your html
 2. create a div callable in js
-3. make it an instance of the ZTAGS Class
+3. make it an instance of the ZTAGS Class with args object
+{the DOM obj, predefined array, readonly, pattern}
 ...
 
 # TODO
 
-* verify if readonly feature is OK
 * improve css style
-* add pattern system (to be able to add a tag if it is in a predefined array)

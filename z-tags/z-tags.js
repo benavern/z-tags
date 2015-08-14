@@ -1,10 +1,10 @@
-var ZTAGS = function (el, predefined, readonly, pattern){
+var ZTAGS = function (args){
 
 	// args
-	this.el = el;
-	this.predefined = predefined;
-	this.readonly = readonly;
-	this.pattern = pattern;
+	this.el = args.element;
+	this.predefined = args.predefined;
+	this.readonly = args.readonly;
+	this.pattern = args.pattern;
 
 	this.listSection;
 	this.addSection;
@@ -83,7 +83,7 @@ ZTAGS.prototype.init = function(){
 ZTAGS.prototype.add = function(theTagToAdd){
 
 	var that = this;
-	
+
 	// if there is a pattern and the word doesn't match
 	if(that.pattern !== false && that.pattern.indexOf(theTagToAdd) == -1 ){
 		return ;
