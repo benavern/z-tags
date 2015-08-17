@@ -1,13 +1,14 @@
 var ZTAGS = function (args){
 
 	// args
-	this.el = args.element;
-	this.predefined = args.predefined;
-	this.readonly = args.readonly;
-	this.pattern = args.pattern;
+	this.element = args.element;
+	this.options = args.options;
+	// predefined / readonly / pattern / color
 
 	this.listSection;
 	this.addSection;
+
+	this.tags = [];
 
 	// meths calls
 	this.init();
@@ -22,28 +23,28 @@ ZTAGS.prototype.init = function(){
 	var that = this;
 
 	// for the styling css script
-	that.el.className += " z-tags-style";
+	that.element.className += " z-tags-style";
 
 	// readonly;
-	if(that.readonly !== true){
-		that.readonly = false;
+	if(that.options.readonly !== true){
+		that.options.readonly = false;
 	}
 
 	// patern
-	if (!Array.isArray(that.pattern)){
-		that.pattern = false;
+	if (!Array.isArray(that.options.pattern)){
+		that.options.pattern = false;
 	}
 
 	// list section
 	that.listSection = document.createElement("div");
 	that.listSection.className = "list-section";
-	that.el.appendChild(that.listSection);
+	that.element.appendChild(that.listSection);
 
-	if (that.readonly === false){
+	if (that.options.readonly === false){
 		// add section
 		that.addSection = document.createElement("input");
 		that.addSection.className = "add-section";
-		that.el.appendChild(that.addSection);
+		that.element.appendChild(that.addSection);
 
 		// key actions
 		that.addSection.addEventListener('keydown', function (e) {
@@ -65,7 +66,7 @@ ZTAGS.prototype.init = function(){
 		});
 
 		// display it?
-		that.el.addEventListener('click', function(e){
+		that.element.addEventListener('click', function(e){
 			if (e.target == this) { 
 				that.addSection.focus();
 			}
@@ -73,10 +74,8 @@ ZTAGS.prototype.init = function(){
 
 	}
 
-	// adds the predefined tags
-	for(var i=0; i < that.predefined.length; i++){
-		that.add(that.predefined[i]);
-	}
+	// init with predefined
+	that.redraw(that.options.predefined);
 
 }
 
@@ -85,7 +84,7 @@ ZTAGS.prototype.add = function(theTagToAdd){
 	var that = this;
 
 	// if there is a pattern and the word doesn't match
-	if(that.pattern !== false && that.pattern.indexOf(theTagToAdd) == -1 ){
+	if(that.options.pattern !== false && that.options.pattern.indexOf(theTagToAdd) == -1 ){
 		return ;
 	}
 	else{
@@ -99,7 +98,7 @@ ZTAGS.prototype.add = function(theTagToAdd){
 		tagLabel.appendChild(tagName);
 		tagWrapper.appendChild(tagLabel);
 
-		if(that.readonly === false){
+		if(that.options.readonly === false){
 			// add it the deletion btn
 			var deleteBtn = document.createElement("span");
 			var deleteLabel = document.createTextNode("X");
@@ -108,35 +107,60 @@ ZTAGS.prototype.add = function(theTagToAdd){
 			tagWrapper.appendChild(deleteBtn);
 			// event listener
 			deleteBtn.addEventListener('click', function(){
-				that.delete(tagWrapper);
+				that.delete(theTagToAdd);
 			})
+		}
+
+		if (!!that.options.color){
+			tagWrapper.style.background = that.options.color;
 		}
 
 		// add it to the DOM
 		that.listSection.appendChild(tagWrapper);
 
+		// //add it to the Array
+		that.tags.push(theTagToAdd)
+
 	}
+}
+
+ZTAGS.prototype.redraw = function(newTagsArray){
+	
+	var that = this;
+
+	// empty the dom
+	while(that.listSection.firstChild){
+  		that.listSection.removeChild(that.listSection.firstChild);
+	}
+
+	// empty the tags array
+	that.tags = [];
+
+	for (var i=0; i<newTagsArray.length; i++){
+		that.add(newTagsArray[i]);
+	}
+
+	
 }
 
 ZTAGS.prototype.delete = function(theTagToDelete){
 
 	var that = this;
 
-	// delete the element
-	theTagToDelete.parentNode.removeChild(theTagToDelete);
+	var newTagsArray = [];
+	// delete the items
+	for (var i=0; i< that.tags.length; i++){
+		if(that.tags[i] !== theTagToDelete){
+			newTagsArray.push(that.tags[i]);
+		}
+	}
+
+	// redraw the tags area
+	that.redraw(newTagsArray);
+	
 }
 
 
 ZTAGS.prototype.get = function(){
-
-	var that = this;
-	var tags = [];
-
-	for (var i=0; i<that.listSection.childNodes.length; i++){
-		var tag = that.listSection.childNodes[i];
-		var tagName = tag.getElementsByClassName('tag-label')[0].innerHTML;
-		tags.push(tagName);
-	}
-
-	return tags;
+	return this.tags;
 }
